@@ -14,10 +14,15 @@ namespace TagsCloudContainer.Architecture
     {
         public Vector CloudCenter { get; set; }
         public List<Rectangle> Rectangles = new List<Rectangle>();
+        public IWordsParser WordsParser { get; set; }
+        public IEnumerable<Tag> Tags { get; }
 
-        public CircularCloudLayouter(Point center)
+        
+        public CircularCloudLayouter(Point center, IWordsParser parser)
         {
             CloudCenter = new Vector(center);
+            WordsParser = parser; 
+            Tags = MakeTagsFromTuples();
         }
 
         public Rectangle PutNextRectangle(Size rectangleSize)
@@ -62,8 +67,9 @@ namespace TagsCloudContainer.Architecture
             return true;
         }
 
-        public List<Tag> MakeTagsFromTuples(List<(string, int)> pairs)
+        public List<Tag> MakeTagsFromTuples()
         {
+            var pairs = WordsParser.Parse();
             var tags = new List<Tag>();
             var fifteenPercent = (int)(pairs.Count * 0.15);
             var thirtyFivePercent = (int)(pairs.Count * 0.35);
@@ -90,12 +96,13 @@ namespace TagsCloudContainer.Architecture
             return tags;
         }
 
-        public void SetRectangeForEachTag(List<Tag> tags)
+        public IEnumerable<Tag> GetLayoutedTags()
         {
-            foreach (var tag in tags)
+            foreach (var tag in Tags)
             {
                 var tagSize = TextRenderer.MeasureText(tag.Text, tag.Font);
                 tag.Rectangle = PutNextRectangle(tagSize);
+                yield return tag;
             }
         }
     }

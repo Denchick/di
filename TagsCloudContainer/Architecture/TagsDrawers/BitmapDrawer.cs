@@ -17,13 +17,16 @@ namespace TagsCloudContainer
         public Point Offset { get; private set; }
         public string Filename { get; private set;}
 
-        public void Draw(ICloudLayouter layouter)
+        public BitmapDrawer(ICloudLayouter layouter, string filename)
         {
-            Filename = filename;
-            Tags = tags;
+            Tags = layouter.GetLayoutedTags();
             CalculateOffsetAndSizeOfBitmap();
+            Filename = filename;
+        }
+        
+        public void Draw()
+        {
             Bitmap = new Bitmap(Size.Width, Size.Height);
-            var tags = layouter.GetTags();
             FillBitmapsBackground(Brushes.Black);
             DrawTagsOnBitmap();
             SaveBitmap();

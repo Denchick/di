@@ -5,7 +5,6 @@ namespace TagsCloudContainer.Architecture
 {
     public interface ICloudLayouter
     {
-        void SetRectangeForEachTag(List<Tag> tags);
-        IEnumerable<Tag> GetTags();
+        IEnumerable<Tag> GetLayoutedTags();
     }
 }

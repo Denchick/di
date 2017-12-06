@@ -4,6 +4,6 @@ namespace TagsCloudContainer
 {
     public interface IWordsParser
     {
-        List<(string, int)> Parse(ITextReader reader);
+        List<(string, int)> Parse();
     }
 }

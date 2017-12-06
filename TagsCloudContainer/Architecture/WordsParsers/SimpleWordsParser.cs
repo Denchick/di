@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TagsCloudContainer.Utils;
@@ -7,6 +8,13 @@ namespace TagsCloudContainer
 {
     public class SimpleWordsParser : IWordsParser
     {
+        public ITextReader  Reader { get; set; }
+
+        public SimpleWordsParser(ITextReader reader)
+        {
+            Reader = reader;
+        }
+
         private static readonly HashSet<string> boringWords = new HashSet<string>()
         {
             "aboard", "about", "above", "across", "after", "against", "along", "amid", "among", "anti",
@@ -45,9 +53,9 @@ namespace TagsCloudContainer
             return boringWords.Contains(word.ToLower()) && word.Length <= 2;
         }
         
-        public List<(string, int)> Parse(ITextReader reader)
+        public List<(string, int)> Parse()
         {
-            var text = reader.Read();
+            var text = Reader.Read();
             var frequentWords = GetMostFrequentWords(text, 70);
             return frequentWords;
         }
