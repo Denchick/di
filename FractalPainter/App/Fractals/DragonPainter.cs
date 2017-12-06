@@ -11,11 +11,14 @@ namespace FractalPainting.App.Fractals
 		private readonly DragonSettings settings;
 		private readonly float size;
 		private Size imageSize;
+		private Palette palette;
 
-		public DragonPainter(IImageHolder imageHolder, DragonSettings settings)
+		public DragonPainter(IImageHolder imageHolder, DragonSettings settings, Palette palette)
 		{
 			this.imageHolder = imageHolder;
 			this.settings = settings;
+			this.palette = palette;
+			
 			imageSize = imageHolder.GetImageSize();
 			size = Math.Min(imageSize.Width, imageSize.Height)/2.1f;
 		}
@@ -24,7 +27,7 @@ namespace FractalPainting.App.Fractals
 		{
 			using (var graphics = imageHolder.StartDrawing())
 			{
-				graphics.FillRectangle(Brushes.Black, 0, 0, imageSize.Width, imageSize.Height);
+				graphics.FillRectangle(new SolidBrush(palette.BackgroundColor), 0, 0, imageSize.Width, imageSize.Height);
 				var r = new Random();
 				var cosa = (float) Math.Cos(settings.Angle1);
 				var sina = (float) Math.Sin(settings.Angle1);

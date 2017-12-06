@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="App\Actions\DragonFractalAction.cs" />
     <Compile Include="App\Actions\ImageSettingsAction.cs" />
+    <Compile Include="App\Actions\IDragonPainterFactory.cs" />
     <Compile Include="App\Actions\KochFractalAction.cs" />
     <Compile Include="App\Actions\PaletteSettingsAction.cs" />
     <Compile Include="App\Actions\SaveImageAction.cs" />

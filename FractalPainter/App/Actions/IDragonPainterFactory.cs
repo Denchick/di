@@ -1,7 +1,9 @@
-﻿namespace FractalPainting.App.Actions
+﻿using FractalPainting.App.Fractals;
+
+namespace FractalPainting.App.Actions
 {
-    public interface IPainterFactory
+    public interface IDragonPainterFactory
     {
-        
+        DragonPainter CreateDragonPainter(DragonSettings settings);
     }
 }
