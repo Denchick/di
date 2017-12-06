@@ -10,7 +10,7 @@ using TagsCloudContainer.Utils;
 
 namespace TagsCloudContainer.Architecture
 {
-    public class CircularCloudLayouter
+    public class CircularCloudLayouter : ICloudLayouter
     {
         public Vector CloudCenter { get; set; }
         public List<Rectangle> Rectangles = new List<Rectangle>();

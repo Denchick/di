@@ -9,21 +9,21 @@ using TagsCloudContainer.Architecture;
 
 namespace TagsCloudContainer
 {
-    public class TagsDrawer
+    public class BitmapDrawer : ITagsDrawer
     {
-        public List<Tag> Tags { get; }
-        public Bitmap Bitmap { get; }
+        public IEnumerable<Tag> Tags { get; private set; }
+        public Bitmap Bitmap { get; private set; }
         public Size Size { get; private set; }
         public Point Offset { get; private set; }
-        public string Filename { get; }
+        public string Filename { get; private set;}
 
-        public TagsDrawer(string filename, List<Tag> tags)
+        public void Draw(ICloudLayouter layouter)
         {
             Filename = filename;
             Tags = tags;
             CalculateOffsetAndSizeOfBitmap();
             Bitmap = new Bitmap(Size.Width, Size.Height);
-
+            var tags = layouter.GetTags();
             FillBitmapsBackground(Brushes.Black);
             DrawTagsOnBitmap();
             SaveBitmap();
@@ -72,5 +72,6 @@ namespace TagsCloudContainer
         {
             Bitmap.Save(Filename);
         }
+
     }
 }

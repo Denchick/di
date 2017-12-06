@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Autofac;
-using TagsCloudContainer.Architecture;
 using TagsCloudContainer.Utils;
 
 namespace TagsCloudContainer
 {
-    class Program
+    public class SimpleWordsParser : IWordsParser
     {
         private static readonly HashSet<string> boringWords = new HashSet<string>()
         {
@@ -34,22 +27,8 @@ namespace TagsCloudContainer
             "какой-либо", "и", "не","на", "из","в","с","о","за","от","что",
             "так", "как",
         };
-
-        public static void Main()
-        {
-            var builder = new ContainerBuilder();
-            builder.RegisterType<FileReader>().As<ITextReader>();
-            builder.RegisterType<SimpleWordsParser>().As<IWordsParser>();
-            var cloudCenter = new Point(300, 300);
-            builder.Register(c => new CircularCloudLayouter(cloudCenter)).As<ICloudLayouter>();
-            builder.RegisterType<BitmapDrawer>().As<ITagsDrawer>();
-            var container = builder.Build();
-
-            var tagsDrawer= container.Resolve<BitmapDrawer>();
-            tagsDrawer.Draw("image.bmp", tags);
-        }
-
-        public static List<(string, int)> GetMostFrequentWords(string text, int count)
+        
+        public List<(string, int)> GetMostFrequentWords(string text, int count)
         {
             return Regex.Split(text.ToLower(), @"\W+")
                 .Where(word => !string.IsNullOrWhiteSpace(word) && !IsBoring(word))
@@ -61,32 +40,16 @@ namespace TagsCloudContainer
                 .ToList();
         }
 
-        private static bool IsBoring(string word)
+        private bool IsBoring(string word)
         {
             return boringWords.Contains(word.ToLower()) && word.Length <= 2;
         }
+        
+        public List<(string, int)> Parse(ITextReader reader)
+        {
+            var text = reader.Read();
+            var frequentWords = GetMostFrequentWords(text, 70);
+            return frequentWords;
+        }
     }
 }
-
-
-/*var builder = new ContainerBuilder();
-    
-//builder.RegisterType<ServiceHelper>().As<IServiceHelper>().WithParameter(new NamedParameter("serviceName", null)).InstancePerDependency();
-builder.RegisterType<FileReader>().As<ITextReader>();
-            
-var cloudCenter = new Point(300, 300);
-var layouter = new CircularCloudLayouter(cloudCenter);
-builder.RegisterInstance(layouter).As<ICloudLayouter>();
-builder.RegisterType<ITagsDrawer>().As<BitmapDrawer>();
-var tags = layouter.MakeTagsFromTuples(mostFrequentWords);
-            
-//            var textFromFile = File.ReadAllText(@"text.txt");
-//            var mostFrequentWords = GetMostFrequentWords(textFromFile, 70);
-//
-//            var cloudCenter = new Point(300, 300);
-//            var layouter = new CircularCloudLayouter(cloudCenter);
-//
-//            var tags = layouter.MakeTagsFromTuples(mostFrequentWords);
-//            layouter.SetRectangeForEachTag(tags);
-            
-var tagsDrawer = new BitmapDrawer("image.bmp", tags);*/

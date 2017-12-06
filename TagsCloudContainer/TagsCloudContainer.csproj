@@ -66,15 +66,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Architecture\CircularCloudLayouter.cs" />
-    <Compile Include="Architecture\Tag.cs" />
+    <Compile Include="Architecture\CloudLayouters\CircularCloudLayouter.cs" />
+    <Compile Include="Architecture\CloudLayouters\ICloudLayouter.cs" />
+    <Compile Include="Architecture\TagsDrawers\BitmapDrawer.cs" />
+    <Compile Include="Architecture\TagsDrawers\ITagsDrawer.cs" />
+    <Compile Include="Architecture\WordsParsers\IWordsParser.cs" />
+    <Compile Include="Architecture\WordsParsers\SimpleWordsParser.cs" />
     <Compile Include="Architecture\Tags\BiggestTag.cs" />
     <Compile Include="Architecture\Tags\BigTag.cs" />
     <Compile Include="Architecture\Tags\MediumTag.cs" />
     <Compile Include="Architecture\Tags\SmallTag.cs" />
+    <Compile Include="Architecture\Tags\Tag.cs" />
+    <Compile Include="Architecture\TextReaders\FileReader.cs" />
+    <Compile Include="Architecture\TextReaders\ITextReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TagsDrawer.cs" />
     <Compile Include="Tests\TestCloudLayouter.cs" />
     <Compile Include="Tests\TestVector.cs" />
     <Compile Include="Utils\StringExtension.cs" />
@@ -102,6 +108,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
