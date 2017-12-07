@@ -86,8 +86,8 @@
     <Compile Include="Architecture\Tags\MediumTag.cs" />
     <Compile Include="Architecture\Tags\SmallTag.cs" />
     <Compile Include="Architecture\Tags\Tag.cs" />
-    <Compile Include="Architecture\TextReaders\FileReader.cs" />
-    <Compile Include="Architecture\TextReaders\ITextReader.cs" />
+    <Compile Include="Architecture\FileReaders\SimpleFileReader.cs" />
+    <Compile Include="Architecture\FileReaders\IFileFormatReader.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

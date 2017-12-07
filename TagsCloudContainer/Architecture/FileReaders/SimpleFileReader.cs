@@ -3,11 +3,11 @@ using System.Windows.Forms.VisualStyles;
 
 namespace TagsCloudContainer
 {
-    public class FileReader : ITextReader
+    public class SimpleFileReader : IFileFormatReader
     {
         public string Filename { get; set; }
         
-        public FileReader(string filename)
+        public SimpleFileReader(string filename)
         {
             Filename = filename;
         }

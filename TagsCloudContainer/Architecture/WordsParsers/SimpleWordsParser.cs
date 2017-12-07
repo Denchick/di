@@ -8,14 +8,14 @@ namespace TagsCloudContainer
 {
     public class SimpleWordsParser : IWordsParser
     {
-        public ITextReader  Reader { get; set; }
+        private IFileFormatReader  Reader { get; set; }
 
-        public SimpleWordsParser(ITextReader reader)
+        public SimpleWordsParser(IFileFormatReader reader)
         {
             Reader = reader;
         }
 
-        private static readonly HashSet<string> boringWords = new HashSet<string>()
+        private static readonly HashSet<string> BoringWords = new HashSet<string>()
         {
             "aboard", "about", "above", "across", "after", "against", "along", "amid", "among", "anti",
             "around", "as", "at", "before", "behind", "below", "beneath", "beside", "besides", "between",
@@ -27,7 +27,7 @@ namespace TagsCloudContainer
 
             "в", "с", "у", "о", "к", "от", "до", "на", "по", "со", "из", "над", "под", "при", "про", "без",
             "ради", "близ", "перед", "около", "через", "вдоль", "после", "кроме", "сквозь", "вроде",
-            "вследствие", "благодаря", "вопреки", "согласно", "навстречу",
+            "вследствие", "благодаря", "вопреки", "согласно", "навстречу", "всем",
             "него", "меня", "себя", "тебя", "мой", "твой", "свой", "ваш", "наш", "его", "её", "их",
             "кто", "что", "какой", "чей", "где", "который", "откуда", "сколько", "каковой", "каков",
             "зачем", "тот", "этот", "столько", "такой", "таков", "сей", "всякий", "каждый", "сам",
@@ -35,8 +35,8 @@ namespace TagsCloudContainer
             "какой-либо", "и", "не","на", "из","в","с","о","за","от","что",
             "так", "как",
         };
-        
-        public List<(string, int)> GetMostFrequentWords(string text, int count)
+
+        private List<(string, int)> GetMostFrequentWords(string text, int count)
         {
             return Regex.Split(text.ToLower(), @"\W+")
                 .Where(word => !string.IsNullOrWhiteSpace(word) && !IsBoring(word))
@@ -48,9 +48,9 @@ namespace TagsCloudContainer
                 .ToList();
         }
 
-        private bool IsBoring(string word)
+        private static bool IsBoring(string word)
         {
-            return boringWords.Contains(word.ToLower()) && word.Length <= 2;
+            return BoringWords.Contains(word.ToLower()) || word.Length <= 2;
         }
         
         public List<(string, int)> Parse()

@@ -26,8 +26,8 @@ namespace TagsCloudContainer
             }
                 
             var builder = new ContainerBuilder();
-            builder.RegisterType<FileReader>()
-                .As<ITextReader>()
+            builder.RegisterType<SimpleFileReader>()
+                .As<IFileFormatReader>()
                 .WithParameter("filename", options.InputFileName);
             builder.RegisterType<SimpleWordsParser>()
                 .As<IWordsParser>();
