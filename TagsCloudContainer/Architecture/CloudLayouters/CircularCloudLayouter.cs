@@ -18,9 +18,9 @@ namespace TagsCloudContainer.Architecture
         public IEnumerable<Tag> Tags { get; }
 
         
-        public CircularCloudLayouter(Point center, IWordsParser parser)
+        public CircularCloudLayouter(IWordsParser parser)
         {
-            CloudCenter = new Vector(center);
+            CloudCenter = new Vector(new Point(300, 300));
             WordsParser = parser; 
             Tags = MakeTagsFromTuples();
         }

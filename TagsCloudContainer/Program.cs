@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Autofac;
 using Autofac.Core;
+using CommandLine;
 using TagsCloudContainer.Architecture;
 using TagsCloudContainer.Utils;
 
@@ -15,25 +16,31 @@ namespace TagsCloudContainer
 {
     class Program
     {
-        public static void Main()
+        public static void Main(string[] args)
         {
-            var cloudCenter = new Point(300, 300);
-            
+            var options = new Options();
+            if (!Parser.Default.ParseArguments(args, options))
+            {
+                options.GetUsage();
+                return;
+            }
+                
             var builder = new ContainerBuilder();
             builder.RegisterType<FileReader>()
-                .As<ITextReader>();
+                .As<ITextReader>()
+                .WithParameter("filename", options.InputFileName);
             builder.RegisterType<SimpleWordsParser>()
                 .As<IWordsParser>();
             builder.RegisterType<CircularCloudLayouter>()
-                .As<ICloudLayouter>()
-                .WithParameter("center", cloudCenter);
+                .As<ICloudLayouter>();
             builder.RegisterType<BitmapDrawer>()
                 .As<ITagsDrawer>()
-                .WithParameter("filename", "image.bmp");
+                .WithParameter("filename", options.ImageFilename);
 
             var container = builder.Build();
             var tagsDrawer = container.Resolve<ITagsDrawer>();
             tagsDrawer.Draw();
         }
+        
     }
 }

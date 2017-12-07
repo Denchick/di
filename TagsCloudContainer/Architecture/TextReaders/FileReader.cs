@@ -7,9 +7,9 @@ namespace TagsCloudContainer
     {
         public string Filename { get; set; }
         
-        public FileReader()
+        public FileReader(string filename)
         {
-            Filename = @"text.txt";
+            Filename = filename;
         }
 
         public string Read()
