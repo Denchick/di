@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,11 +12,11 @@ namespace TagsCloudContainer
 {
     public class BitmapDrawer : ITagsDrawer
     {
-        public List<Tag> Tags { get; private set; }
-        public Bitmap Bitmap { get; private set; }
-        public Size Size { get; private set; }
-        public Point Offset { get; private set; }
-        public string Filename { get; private set;}
+        private List<Tag> Tags { get; set; }
+        private Bitmap Bitmap { get; set; }
+        private Size Size { get; set; }
+        private Point Offset { get; set; }
+        private string Filename { get; set;}
 
         public BitmapDrawer(ICloudLayouter layouter, string filename)
         {
@@ -71,9 +72,9 @@ namespace TagsCloudContainer
             Offset = new Point(leftBorder, topBorder);
         }
 
-        public void SaveBitmap()
+        private void SaveBitmap()
         {
-            Bitmap.Save(Filename);
+            Bitmap.Save(Filename, ImageFormat.Png);
         }
 
     }

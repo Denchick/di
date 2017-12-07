@@ -14,7 +14,7 @@ namespace TagsCloudContainer
             HelpText = "Построить облако в окне")]
         public bool Gui { get; set; }
 
-        [Option('i', "image", Required = false, DefaultValue = "image.bmp",
+        [Option('i', "image", Required = false, DefaultValue = "image.png",
             HelpText = "Имя файла, в который нужно сохранить изображение")]
         public string ImageFilename { get; set; }
         
