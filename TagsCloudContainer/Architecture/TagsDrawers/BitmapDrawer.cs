@@ -11,7 +11,7 @@ namespace TagsCloudContainer
 {
     public class BitmapDrawer : ITagsDrawer
     {
-        public IEnumerable<Tag> Tags { get; private set; }
+        public List<Tag> Tags { get; private set; }
         public Bitmap Bitmap { get; private set; }
         public Size Size { get; private set; }
         public Point Offset { get; private set; }
@@ -19,7 +19,7 @@ namespace TagsCloudContainer
 
         public BitmapDrawer(ICloudLayouter layouter, string filename)
         {
-            Tags = layouter.GetLayoutedTags();
+            Tags = layouter.GetLayoutedTags().ToList();
             CalculateOffsetAndSizeOfBitmap();
             Filename = filename;
         }

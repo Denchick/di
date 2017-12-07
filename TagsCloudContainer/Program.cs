@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Autofac;
+using Autofac.Core;
 using TagsCloudContainer.Architecture;
 using TagsCloudContainer.Utils;
 
@@ -16,17 +17,22 @@ namespace TagsCloudContainer
     {
         public static void Main()
         {
+            var cloudCenter = new Point(300, 300);
+            
             var builder = new ContainerBuilder();
-            builder.RegisterType<FileReader>().As<ITextReader>();
-            builder.RegisterType<SimpleWordsParser>().As<IWordsParser>();
-            builder.RegisterType<CircularCloudLayouter>().As<ICloudLayouter>();
-            builder.RegisterType<BitmapDrawer>().As<ITagsDrawer>();
+            builder.RegisterType<FileReader>()
+                .As<ITextReader>();
+            builder.RegisterType<SimpleWordsParser>()
+                .As<IWordsParser>();
+            builder.RegisterType<CircularCloudLayouter>()
+                .As<ICloudLayouter>()
+                .WithParameter("center", cloudCenter);
+            builder.RegisterType<BitmapDrawer>()
+                .As<ITagsDrawer>()
+                .WithParameter("filename", "image.bmp");
 
             var container = builder.Build();
-            var cloudCenter = new Point(300, 300);
-            container.Resolve<CircularCloudLayouter>(new NamedParameter("center", cloudCenter));
-            container.Resolve<BitmapDrawer>(new NamedParameter("filename", "image.bmp"));
-            var tagsDrawer = container.Resolve<BitmapDrawer>();
+            var tagsDrawer = container.Resolve<ITagsDrawer>();
             tagsDrawer.Draw();
         }
     }
