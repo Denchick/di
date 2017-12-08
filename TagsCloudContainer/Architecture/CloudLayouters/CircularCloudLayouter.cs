@@ -6,30 +6,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TagsCloudContainer.Architecture.Tags;
+using TagsCloudContainer.Architecture.Themes;
 using TagsCloudContainer.Utils;
 
 namespace TagsCloudContainer.Architecture
 {
     public class CircularCloudLayouter : ICloudLayouter
     {
-        public Vector CloudCenter { get; set; }
-        public List<Rectangle> Rectangles = new List<Rectangle>();
-        public IWordsParser WordsParser { get; set; }
-        public IEnumerable<Tag> Tags { get; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        private Vector CloudCenter { get; set; }
+        private List<Rectangle> Rectangles = new List<Rectangle>();
+        private IWordsParser WordsParser { get; set; }
+        private IEnumerable<Tag> Tags { get; }
+        public int Width { get;}
+        public int Height { get; }
+        public ITheme Theme { get; }
 
         
-        public CircularCloudLayouter(IWordsParser parser, int width, int height)
+        public CircularCloudLayouter(IWordsParser parser, ITheme theme, int width, int height)
         {
             CloudCenter = new Vector(width / 2, height / 2);
             Width = width;
             Height = height;
-            WordsParser = parser; 
+            WordsParser = parser;
+            Theme = theme;
             Tags = MakeTagsFromTuples();
         }
 
-        public Rectangle PutNextRectangle(Size rectangleSize)
+        private Rectangle PutNextRectangle(Size rectangleSize)
         {
             var rectangleVector = Rectangles.Count == 0
                 ? CloudCenter - new Vector(rectangleSize.Width, rectangleSize.Height) / 2
@@ -40,13 +43,13 @@ namespace TagsCloudContainer.Architecture
             return rectangle;
         }
 
-        public Vector GetRectanglesVector(Size rectangleSize)
+        private Vector GetRectanglesVector(Size rectangleSize)
         {
             var radius = Math.Min(Rectangles.First().Width, Rectangles.First().Height);
             var step = 1;
             while (true)
             {
-                for (int offsetX = -radius; offsetX < radius; offsetX++)
+                for (var offsetX = -radius; offsetX < radius; offsetX++)
                 {
                     var offsetY = (int)Math.Round(Math.Sqrt(radius * radius - offsetX * offsetX));
                     var rectangleVector1 = CloudCenter - new Vector(offsetX, offsetY) / 2;
@@ -60,41 +63,39 @@ namespace TagsCloudContainer.Architecture
             }
         }
 
-        public bool CouldPutRectangle(Vector rectangleVector, Size rectangleSize)
+        private bool CouldPutRectangle(Vector rectangleVector, Size rectangleSize)
         {
             if (rectangleVector.X < 0 || rectangleVector.Y < 0)
                 return false;
             var potentialRectangle = new Rectangle(rectangleVector.ToPoint(), rectangleSize);
-            foreach (var rectangle in Rectangles)
-                if (rectangle.IntersectsWith(potentialRectangle))
-                    return false;
-            return true;
+            return Rectangles
+                .All(rectangle => !rectangle.IntersectsWith(potentialRectangle));
         }
 
-        public List<Tag> MakeTagsFromTuples()
+        private IEnumerable<Tag> MakeTagsFromTuples()
         {
             var pairs = WordsParser.Parse();
             var tags = new List<Tag>();
             var fifteenPercent = (int)(pairs.Count * 0.15);
             var thirtyFivePercent = (int)(pairs.Count * 0.35);
 
-            tags.Add(new BiggestTag() { Text = pairs.First().Item1 });
+            tags.Add(new Tag(TagType.Biggest) { Text = pairs.First().Item1 });
 
             tags.AddRange(pairs
                 .Skip(1)
                 .Take(fifteenPercent)
-                .Select(e => new BigTag() { Text = e.Item1 })
+                .Select(e => new Tag(TagType.Big) { Text = e.Item1 })
                 .ToList());
 
             tags.AddRange(pairs
                 .Skip(1 + fifteenPercent)
                 .Take(thirtyFivePercent)
-                .Select(e => new MediumTag() { Text = e.Item1 })
+                .Select(e => new Tag(TagType.Medium) { Text = e.Item1 })
                 .ToList());
 
             tags.AddRange(pairs
                 .Skip(1 + fifteenPercent + thirtyFivePercent)
-                .Select(e => new SmallTag() { Text = e.Item1 })
+                .Select(e => new Tag(TagType.Small) { Text = e.Item1 })
                 .ToList());
 
             return tags;
@@ -104,7 +105,8 @@ namespace TagsCloudContainer.Architecture
         {
             foreach (var tag in Tags)
             {
-                var tagSize = TextRenderer.MeasureText(tag.Text, tag.Font);
+                var tagFont = Theme.GetTagAppearanceByType(tag.Type).Font;
+                var tagSize = TextRenderer.MeasureText(tag.Text, tagFont);
                 tag.Rectangle = PutNextRectangle(tagSize);
                 yield return tag;
             }

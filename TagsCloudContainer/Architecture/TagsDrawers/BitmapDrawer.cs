@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TagsCloudContainer.Architecture;
+using TagsCloudContainer.Architecture.Themes;
 
 namespace TagsCloudContainer
 {
@@ -17,19 +18,22 @@ namespace TagsCloudContainer
         private Size Size { get; set; }
         private Point Offset { get; set; }
         private string Filename { get; set;}
+        private ITheme Theme { get; set; }
 
         public BitmapDrawer(ICloudLayouter layouter, string filename)
         {
             Tags = layouter.GetLayoutedTags().ToList();
             Size = new Size(layouter.Width, layouter.Height);
             Offset = new Point(0, 0);
+            Theme = layouter.Theme;
             Filename = filename;
         }
-        
+
+
         public void Draw()
         {
             Bitmap = new Bitmap(Size.Width, Size.Height);
-            FillBitmapsBackground(Brushes.Black);
+            FillBitmapsBackground(Theme.BackgroundColor);
             DrawTagsOnBitmap();
             SaveBitmap();
         }
@@ -45,12 +49,14 @@ namespace TagsCloudContainer
             var graphics = Graphics.FromImage(Bitmap);
             foreach (var tag in Tags)
             {
-                var tagSize = TextRenderer.MeasureText(tag.Text, tag.Font);
+                var tagFont = Theme.GetTagAppearanceByType(tag.Type).Font;
+                var tagBrush = Theme.GetTagAppearanceByType(tag.Type).Brush;
+                var tagSize = TextRenderer.MeasureText(tag.Text, tagFont);
                 var sourceRectangle = tag.Rectangle;
                 tag.Rectangle =
                     new Rectangle(new Point(sourceRectangle.Left - Offset.X, sourceRectangle.Top - Offset.Y),
                         sourceRectangle.Size);
-                graphics.DrawString(tag.Text, tag.Font, tag.Brush, tag.Rectangle.Location);
+                graphics.DrawString(tag.Text, tagFont, tagBrush, tag.Rectangle.Location);
             }
         }
 

@@ -10,6 +10,7 @@ using Autofac;
 using Autofac.Core;
 using CommandLine;
 using TagsCloudContainer.Architecture;
+using TagsCloudContainer.Architecture.Themes;
 using TagsCloudContainer.Utils;
 
 namespace TagsCloudContainer
@@ -24,15 +25,17 @@ namespace TagsCloudContainer
                 options.GetUsage();
                 return;
             }
-                
+            
             var builder = new ContainerBuilder();
             builder.RegisterType<SimpleFileReader>()
                 .As<IFileFormatReader>()
                 .WithParameter("filename", options.InputFileName);
             builder.RegisterType<SimpleWordsParser>()
+                .WithParameter("countWordsToParse", options.Count)
                 .As<IWordsParser>();
             builder.RegisterType<CircularCloudLayouter>()
                 .As<ICloudLayouter>()
+                .WithParameter("theme", GetThemeByName(options.Theme))
                 .WithParameter("height", options.Height)
                 .WithParameter("width", options.Width);
             builder.RegisterType<BitmapDrawer>()
@@ -44,6 +47,12 @@ namespace TagsCloudContainer
             var tagsDrawer = container.Resolve<ITagsDrawer>();
             tagsDrawer.Draw();
         }
-        
+
+        private static ITheme GetThemeByName(string themeName)
+        {
+            if (themeName == "NightMode")
+                return new NightMode();
+            return new Stupid();
+        }
     }
 }

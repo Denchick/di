@@ -9,10 +9,11 @@ namespace TagsCloudContainer
     public class SimpleWordsParser : IWordsParser
     {
         private IFileFormatReader  Reader { get; set; }
-
-        public SimpleWordsParser(IFileFormatReader reader)
+        private int CountWordsToParse { get; set; }
+        public SimpleWordsParser(IFileFormatReader reader, int countWordsToParse)
         {
             Reader = reader;
+            CountWordsToParse = countWordsToParse;
         }
 
         private static readonly HashSet<string> BoringWords = new HashSet<string>()
@@ -56,7 +57,7 @@ namespace TagsCloudContainer
         public List<(string, int)> Parse()
         {
             var text = Reader.Read();
-            var frequentWords = GetMostFrequentWords(text, 70);
+            var frequentWords = GetMostFrequentWords(text, CountWordsToParse);
             return frequentWords;
         }
     }

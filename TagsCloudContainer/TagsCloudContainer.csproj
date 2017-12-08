@@ -77,14 +77,15 @@
   <ItemGroup>
     <Compile Include="Architecture\CloudLayouters\CircularCloudLayouter.cs" />
     <Compile Include="Architecture\CloudLayouters\ICloudLayouter.cs" />
+    <Compile Include="Architecture\Tags\TagType.cs" />
+    <Compile Include="Architecture\Themes\ITheme.cs" />
+    <Compile Include="Architecture\Themes\Stupid.cs" />
+    <Compile Include="Architecture\Themes\TagAppearance.cs" />
     <Compile Include="Architecture\TagsDrawers\BitmapDrawer.cs" />
     <Compile Include="Architecture\TagsDrawers\ITagsDrawer.cs" />
+    <Compile Include="Architecture\Themes\NightMode.cs" />
     <Compile Include="Architecture\WordsParsers\IWordsParser.cs" />
     <Compile Include="Architecture\WordsParsers\SimpleWordsParser.cs" />
-    <Compile Include="Architecture\Tags\BiggestTag.cs" />
-    <Compile Include="Architecture\Tags\BigTag.cs" />
-    <Compile Include="Architecture\Tags\MediumTag.cs" />
-    <Compile Include="Architecture\Tags\SmallTag.cs" />
     <Compile Include="Architecture\Tags\Tag.cs" />
     <Compile Include="Architecture\FileReaders\SimpleFileReader.cs" />
     <Compile Include="Architecture\FileReaders\IFileFormatReader.cs" />

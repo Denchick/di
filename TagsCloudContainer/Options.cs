@@ -5,7 +5,7 @@ using CommandLine.Text;
 namespace TagsCloudContainer
 {
     class Options {        
-        
+                
         [Option('t', "text", Required = true,
             HelpText = "Текст, по которому строить облако тегов.")]
         public string InputFileName { get; set; }
@@ -25,6 +25,15 @@ namespace TagsCloudContainer
         [Option('w', "width", Required = false, DefaultValue = "800",
             HelpText = "Ширина изображения в пискелах")]
         public string Width { get; set; }
+        
+        [Option('e', "theme", Required = false, DefaultValue = "NightMode",
+            HelpText = "Использовать определенную тему. Пока есть 2: NightMode и Stupid")]
+        public string Theme { get; set; }
+        
+        
+        
+        [Option('c', "count", DefaultValue = 70, HelpText = "Количество слов из текста в облаке")]
+        public int Count { get; set; }
         
         
         [ParserState]
