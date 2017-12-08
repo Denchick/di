@@ -21,7 +21,8 @@ namespace TagsCloudContainer
         public BitmapDrawer(ICloudLayouter layouter, string filename)
         {
             Tags = layouter.GetLayoutedTags().ToList();
-            CalculateOffsetAndSizeOfBitmap();
+            Size = new Size(layouter.Width, layouter.Height);
+            Offset = new Point(0, 0);
             Filename = filename;
         }
         
@@ -51,25 +52,6 @@ namespace TagsCloudContainer
                         sourceRectangle.Size);
                 graphics.DrawString(tag.Text, tag.Font, tag.Brush, tag.Rectangle.Location);
             }
-        }
-
-        private void CalculateOffsetAndSizeOfBitmap()
-        {
-            var leftBorder = Tags
-                .Select(e => e.Rectangle.Left)
-                .Min();
-            var rightBorder = Tags
-                .Select(e => e.Rectangle.Right)
-                .Max();
-            var topBorder = Tags
-                .Select(e => e.Rectangle.Top)
-                .Min();
-            var bottomBorder = Tags
-                .Select(e => e.Rectangle.Bottom)
-                .Max();
-
-            Size = new Size(rightBorder - leftBorder, bottomBorder - topBorder);
-            Offset = new Point(leftBorder, topBorder);
         }
 
         private void SaveBitmap()

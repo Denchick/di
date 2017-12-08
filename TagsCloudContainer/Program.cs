@@ -32,10 +32,13 @@ namespace TagsCloudContainer
             builder.RegisterType<SimpleWordsParser>()
                 .As<IWordsParser>();
             builder.RegisterType<CircularCloudLayouter>()
-                .As<ICloudLayouter>();
+                .As<ICloudLayouter>()
+                .WithParameter("height", options.Height)
+                .WithParameter("width", options.Width);
             builder.RegisterType<BitmapDrawer>()
                 .As<ITagsDrawer>()
                 .WithParameter("filename", options.ImageFilename);
+            
 
             var container = builder.Build();
             var tagsDrawer = container.Resolve<ITagsDrawer>();

@@ -10,6 +10,6 @@ namespace TagsCloudContainer.Architecture.Tags
     class BiggestTag : Tag
     {
         public override Brush Brush => Brushes.White;
-        public override Font Font => new Font("Arial", 64.0f);
+        public override Font Font => new Font("Arial", 64);
     }
 }

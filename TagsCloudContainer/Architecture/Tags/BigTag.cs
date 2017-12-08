@@ -10,6 +10,6 @@ namespace TagsCloudContainer.Architecture.Tags
     class BigTag : Tag
     {
         public override Brush Brush => new SolidBrush(Color.FromArgb(255, 102, 0));
-        public override Font Font => new Font("Arial", 32.0f);
+        public override Font Font => new Font("Arial", 32);
     }
 }

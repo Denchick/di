@@ -10,8 +10,8 @@ namespace TagsCloudContainer.Architecture
     public class Tag
     {
         public string Text { get; set; }
-        public virtual Brush Brush { get; }
-        public virtual Font Font { get; }
+        public virtual Brush Brush { get; set; }
+        public virtual Font Font { get; set; }
         public virtual Rectangle Rectangle { get; set; }
     }
 }

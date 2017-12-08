@@ -10,6 +10,6 @@ namespace TagsCloudContainer.Architecture.Tags
     class SmallTag : Tag
     {
         public override Brush Brush => new SolidBrush(Color.FromArgb(156, 89, 44));
-        public override Font Font => new Font("Arial", 12.0f);
+        public override Font Font => new Font("Arial", 12);
     }
 }

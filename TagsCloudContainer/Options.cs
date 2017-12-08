@@ -18,6 +18,13 @@ namespace TagsCloudContainer
             HelpText = "Имя файла, в который нужно сохранить изображение")]
         public string ImageFilename { get; set; }
         
+        [Option('h', "height", Required = false, DefaultValue = "800",
+            HelpText = "Высота изображения в пискелах")]
+        public string Height { get; set; }
+        
+        [Option('w', "width", Required = false, DefaultValue = "800",
+            HelpText = "Ширина изображения в пискелах")]
+        public string Width { get; set; }
         
         
         [ParserState]

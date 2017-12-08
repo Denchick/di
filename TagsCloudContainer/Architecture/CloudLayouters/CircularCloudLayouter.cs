@@ -16,11 +16,15 @@ namespace TagsCloudContainer.Architecture
         public List<Rectangle> Rectangles = new List<Rectangle>();
         public IWordsParser WordsParser { get; set; }
         public IEnumerable<Tag> Tags { get; }
+        public int Width { get; set; }
+        public int Height { get; set; }
 
         
-        public CircularCloudLayouter(IWordsParser parser)
+        public CircularCloudLayouter(IWordsParser parser, int width, int height)
         {
-            CloudCenter = new Vector(new Point(300, 300));
+            CloudCenter = new Vector(width / 2, height / 2);
+            Width = width;
+            Height = height;
             WordsParser = parser; 
             Tags = MakeTagsFromTuples();
         }
