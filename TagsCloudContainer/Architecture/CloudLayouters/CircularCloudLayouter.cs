@@ -47,10 +47,12 @@ namespace TagsCloudContainer.Architecture
         {
             var radius = Math.Min(Rectangles.First().Width, Rectangles.First().Height);
             var step = 1;
+            var rnd = new Random();
             while (true)
             {
                 for (var offsetX = -radius; offsetX < radius; offsetX++)
                 {
+                    
                     var offsetY = (int)Math.Round(Math.Sqrt(radius * radius - offsetX * offsetX));
                     var rectangleVector1 = CloudCenter - new Vector(offsetX, offsetY) / 2;
                     var rectangleVector2 = CloudCenter - new Vector(offsetX, -offsetY) / 2;
@@ -65,7 +67,8 @@ namespace TagsCloudContainer.Architecture
 
         private bool CouldPutRectangle(Vector rectangleVector, Size rectangleSize)
         {
-            if (rectangleVector.X < 0 || rectangleVector.Y < 0)
+            if (rectangleVector.X < 0 || rectangleVector.Y < 0 || 
+                rectangleVector.X + rectangleSize.Width > Width || rectangleVector.Y + rectangleSize.Height > Height)
                 return false;
             var potentialRectangle = new Rectangle(rectangleVector.ToPoint(), rectangleSize);
             return Rectangles
