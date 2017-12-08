@@ -10,9 +10,9 @@
 
 # Примеры работы
 
-![example2](C:\Users\Volkov\YandexDisk\Учеба\Shpora\di\TagsCloudContainer\example2.png)
+![example2](example2.png)
 
-![example1](C:\Users\Volkov\YandexDisk\Учеба\Shpora\di\TagsCloudContainer\example1.png)
+![example1](example1.png)
 
 
 
