@@ -12,9 +12,9 @@ namespace TagsCloudContainer.Architecture.TagsMakers
         private ICloudLayouter CloudLayouter { get; }
         private List<Tag> Tags { get; set; }
 
-        public StandardTagsBuilder(ICloudLayouter cloudLayouter, ISettings settings, IWordsParser mostFrequentlyWords)
+        public StandardTagsBuilder(ICloudLayouter cloudLayouter, ImageSettings settings, IWordsParser mostFrequentlyWords)
         {
-            Theme = settings.ImageSettings.Theme;
+            Theme = settings.Theme;
             CloudLayouter = cloudLayouter;
             Tags = MakeTagsFromTuples(mostFrequentlyWords.Parse())
                 .ToList();

@@ -14,10 +14,10 @@ namespace TagsCloudContainer
         private int CountWordsToParse { get; set; }
         private IWordHandler WordHandler { get; set; }
 
-        public SimpleWordsParser(IFileFormatReader reader, IWordHandler wordHandler, ISettings settings)
+        public SimpleWordsParser(IFileFormatReader reader, IWordHandler wordHandler, WordsParserSettings settings)
         {
             Reader = reader;
-            CountWordsToParse = settings.WordsParserSettings.CountWordsToParse;
+            CountWordsToParse = settings.CountWordsToParse;
             WordHandler = wordHandler;
         }
         private static readonly HashSet<string> BoringWords = new HashSet<string>()

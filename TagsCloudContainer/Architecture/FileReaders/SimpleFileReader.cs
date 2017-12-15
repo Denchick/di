@@ -8,9 +8,9 @@ namespace TagsCloudContainer
     {
         private string Filename { get; set; }
         
-        public SimpleFileReader(ISettings settings)
+        public SimpleFileReader(FileReaderSettings settings)
         {
-            Filename = settings.FileReaderSettings.Filename;
+            Filename = settings.Filename;
         }
 
         public string Read()

@@ -22,28 +22,14 @@ namespace TagsCloudContainer
     {
         public static void Main(string[] args)
         {
-            var options = new Options();
-            if (!Parser.Default.ParseArguments(args, options))
-            {
-                options.GetUsage();
-                return;
-            }
-
-            var imageSettings = new ImageSettings(
-                options.ImageFilename, options.Height, options.Width, GetThemeByName(options.Theme), options.Gui);
-            var wordsParserSettings = new WordsParserSettings(options.Count);
-            var fileReaderSettings = new FileReaderSettings(options.InputFileName);
             
             var builder = new ContainerBuilder();
-            builder.RegisterInstance(imageSettings)
-                .As<ImageSettings>();
-            builder.RegisterInstance(wordsParserSettings)
-                .As<WordsParserSettings>();
-            builder.RegisterInstance(fileReaderSettings)
-                .As<FileReaderSettings>();
-            builder.RegisterType<AppSettings>()
+            var settings = AppSettings.FromArgs(args);
+            builder.RegisterInstance(settings)
                 .As<ISettings>();
-            
+            builder.Register(ctx => ctx.Resolve<ISettings>().ImageSettings);
+            builder.Register(ctx => ctx.Resolve<ISettings>().FileReaderSettings);
+            builder.Register(ctx => ctx.Resolve<ISettings>().WordsParserSettings);
             builder.RegisterType<SimpleFileReader>()
                 .As<IFileFormatReader>();
             builder.RegisterType<NoHandler>()
@@ -60,13 +46,6 @@ namespace TagsCloudContainer
             var container = builder.Build();
             var tagsDrawer = container.Resolve<ITagsDrawer>();
             tagsDrawer.Draw();
-        }
-
-        private static ITheme GetThemeByName(string themeName)
-        {
-            if (themeName == "NightMode")
-                return new NightMode();
-            return new Stupid();
         }
     }
 }

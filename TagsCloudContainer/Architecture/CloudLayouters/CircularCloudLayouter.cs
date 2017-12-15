@@ -19,11 +19,11 @@ namespace TagsCloudContainer.Architecture
         private int Height { get; }
 
         
-        public CircularCloudLayouter(ISettings settings)
+        public CircularCloudLayouter(ImageSettings settings)
         {
-            CloudCenter = new Vector(settings.ImageSettings.Width / 2, settings.ImageSettings.Height/ 2);
-            Width = settings.ImageSettings.Width;
-            Height = settings.ImageSettings.Height;
+            CloudCenter = new Vector(settings.Width / 2, settings.Height/ 2);
+            Width = settings.Width;
+            Height = settings.Height;
         }
 
         public Rectangle PutNextRectangle(Size rectangleSize)

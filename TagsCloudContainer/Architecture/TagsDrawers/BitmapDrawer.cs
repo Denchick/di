@@ -22,12 +22,12 @@ namespace TagsCloudContainer
         private ITheme Theme { get; }
         private ITagsBuilder TagsBuilder { get; }
 
-        public BitmapDrawer(ISettings settings, ITagsBuilder tagsBuilder)
+        public BitmapDrawer(ImageSettings settings, ITagsBuilder tagsBuilder)
         {
-            Size = new Size(settings.ImageSettings.Width, settings.ImageSettings.Height);
+            Size = new Size(settings.Width, settings.Height);
             Offset = new Point(0, 0);
-            Theme = settings.ImageSettings.Theme;
-            Filename = settings.ImageSettings.Filename;
+            Theme = settings.Theme;
+            Filename = settings.Filename;
             TagsBuilder = tagsBuilder;
         }
 
