@@ -29,7 +29,7 @@ namespace TagsCloudContainer
             }
 
             var imageSettings = new ImageSettings(
-                options.ImageFilename, options.Height, options.Width, GetThemeByName(options.Theme));
+                options.ImageFilename, options.Height, options.Width, GetThemeByName(options.Theme), options.Gui);
             var wordsParserSettings = new WordsParserSettings(options.Count);
             var fileReaderSettings = new FileReaderSettings(options.InputFileName);
             
