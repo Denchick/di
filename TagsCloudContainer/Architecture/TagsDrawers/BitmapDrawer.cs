@@ -7,28 +7,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TagsCloudContainer.Architecture;
+using TagsCloudContainer.Architecture.TagsMakers;
 using TagsCloudContainer.Architecture.Themes;
 
 namespace TagsCloudContainer
 {
     public class BitmapDrawer : ITagsDrawer
     {
-        private List<Tag> Tags { get; set; }
+        private List<Tag> Tags { get; }
         private Bitmap Bitmap { get; set; }
-        private Size Size { get; set; }
-        private Point Offset { get; set; }
-        private string Filename { get; set;}
-        private ITheme Theme { get; set; }
+        private Size Size { get; }
+        private Point Offset { get; }
+        private string Filename { get; }
+        private ITheme Theme { get; }
+        private ITagsBuilder TagsBuilder { get; }
 
-        public BitmapDrawer(ICloudLayouter layouter, ISettings settings)
+        public BitmapDrawer(ISettings settings, ITagsBuilder tagsBuilder)
         {
-            Tags = layouter.GetLayoutedTags().ToList();
-            Size = new Size(layouter.Width, layouter.Height);
+            Size = new Size(settings.ImageSettings.Width, settings.ImageSettings.Height);
             Offset = new Point(0, 0);
-            Theme = layouter.Theme;
+            Theme = settings.ImageSettings.Theme;
             Filename = settings.ImageSettings.Filename;
+            TagsBuilder = tagsBuilder;
         }
-
 
         public void Draw()
         {
@@ -47,7 +48,7 @@ namespace TagsCloudContainer
         private void DrawTagsOnBitmap()
         {
             var graphics = Graphics.FromImage(Bitmap);
-            foreach (var tag in Tags)
+            foreach (var tag in TagsBuilder.Build())
             {
                 var tagFont = Theme.GetTagAppearanceByType(tag.Type).Font;
                 var tagBrush = Theme.GetTagAppearanceByType(tag.Type).Brush;

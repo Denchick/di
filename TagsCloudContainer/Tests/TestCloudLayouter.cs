@@ -14,13 +14,20 @@ namespace TagsCloudContainer.Tests
     public class CloudLayouterTests
     {
         /*
+        class TestSetting : ISettings
+        {
+            public ImageSettings ImageSettings { get; set; }
+            public WordsParserSettings WordsParserSettings { get; set; }
+            public FileReaderSettings FileReaderSettings { get; set; }
+        }
+        
         [TestCase(0, 0)]
         [TestCase(10, 10)]
         public void Cloudlayoter_SetUpCenterCorrectly(int centerX, int centerY)
         {
             var center = new Point(centerX, centerY);
 
-            var cloud = new CircularCloudLayouter(center);
+            var cloud = new CircularCloudLayouter();
 
             cloud.CloudCenter.Should().Be(new Vector(center));
         }

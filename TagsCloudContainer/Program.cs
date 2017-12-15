@@ -11,6 +11,7 @@ using Autofac;
 using Autofac.Core;
 using CommandLine;
 using TagsCloudContainer.Architecture;
+using TagsCloudContainer.Architecture.TagsMakers;
 using TagsCloudContainer.Architecture.Themes;
 using TagsCloudContainer.Properties;
 using TagsCloudContainer.Utils;
@@ -49,6 +50,8 @@ namespace TagsCloudContainer
                 .As<IWordHandler>();
             builder.RegisterType<SimpleWordsParser>()
                 .As<IWordsParser>();
+            builder.RegisterType<StandardTagsBuilder>()
+                .As<ITagsBuilder>();
             builder.RegisterType<CircularCloudLayouter>()
                 .As<ICloudLayouter>();
             builder.RegisterType<BitmapDrawer>()

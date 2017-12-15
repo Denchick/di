@@ -85,6 +85,8 @@
     <Compile Include="Architecture\Settings\IParserSettingsProvider.cs" />
     <Compile Include="Architecture\Settings\ISettings.cs" />
     <Compile Include="Architecture\Settings\WordsParserSettings.cs" />
+    <Compile Include="Architecture\TagsBuilder\ITagsBuilder.cs" />
+    <Compile Include="Architecture\TagsBuilder\StandardTagsBuilder.cs" />
     <Compile Include="Architecture\Tags\TagType.cs" />
     <Compile Include="Architecture\Themes\ITheme.cs" />
     <Compile Include="Architecture\Themes\Stupid.cs" />

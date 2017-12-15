@@ -15,24 +15,18 @@ namespace TagsCloudContainer.Architecture
     {
         private Vector CloudCenter { get; set; }
         private List<Rectangle> Rectangles = new List<Rectangle>();
-        private IWordsParser WordsParser { get; set; }
-        private IEnumerable<Tag> Tags { get; }
-        public int Width { get;}
-        public int Height { get; }
-        public ITheme Theme { get; }
+        private int Width { get;}
+        private int Height { get; }
 
         
-        public CircularCloudLayouter(IWordsParser parser, ISettings settings)
+        public CircularCloudLayouter(ISettings settings)
         {
             CloudCenter = new Vector(settings.ImageSettings.Width / 2, settings.ImageSettings.Height/ 2);
             Width = settings.ImageSettings.Width;
             Height = settings.ImageSettings.Height;
-            WordsParser = parser;
-            Theme = settings.ImageSettings.Theme;
-            Tags = MakeTagsFromTuples();
         }
 
-        private Rectangle PutNextRectangle(Size rectangleSize)
+        public Rectangle PutNextRectangle(Size rectangleSize)
         {
             var rectangleVector = Rectangles.Count == 0
                 ? CloudCenter - new Vector(rectangleSize.Width, rectangleSize.Height) / 2
@@ -73,46 +67,6 @@ namespace TagsCloudContainer.Architecture
             var potentialRectangle = new Rectangle(rectangleVector.ToPoint(), rectangleSize);
             return Rectangles
                 .All(rectangle => !rectangle.IntersectsWith(potentialRectangle));
-        }
-
-        private IEnumerable<Tag> MakeTagsFromTuples()
-        {
-            var pairs = WordsParser.Parse();
-            var tags = new List<Tag>();
-            var fifteenPercent = (int)(pairs.Count * 0.15);
-            var thirtyFivePercent = (int)(pairs.Count * 0.35);
-
-            tags.Add(new Tag(TagType.Biggest) { Text = pairs.First().Item1 });
-
-            tags.AddRange(pairs
-                .Skip(1)
-                .Take(fifteenPercent)
-                .Select(e => new Tag(TagType.Big) { Text = e.Item1 })
-                .ToList());
-
-            tags.AddRange(pairs
-                .Skip(1 + fifteenPercent)
-                .Take(thirtyFivePercent)
-                .Select(e => new Tag(TagType.Medium) { Text = e.Item1 })
-                .ToList());
-
-            tags.AddRange(pairs
-                .Skip(1 + fifteenPercent + thirtyFivePercent)
-                .Select(e => new Tag(TagType.Small) { Text = e.Item1 })
-                .ToList());
-
-            return tags;
-        }
-
-        public IEnumerable<Tag> GetLayoutedTags()
-        {
-            foreach (var tag in Tags)
-            {
-                var tagFont = Theme.GetTagAppearanceByType(tag.Type).Font;
-                var tagSize = TextRenderer.MeasureText(tag.Text, tagFont);
-                tag.Rectangle = PutNextRectangle(tagSize);
-                yield return tag;
-            }
         }
     }
 }
