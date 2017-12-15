@@ -1,15 +1,16 @@
 ﻿using System.IO;
 using System.Windows.Forms.VisualStyles;
+using TagsCloudContainer.Architecture;
 
 namespace TagsCloudContainer
 {
     public class SimpleFileReader : IFileFormatReader
     {
-        public string Filename { get; set; }
+        private string Filename { get; set; }
         
-        public SimpleFileReader(string filename)
+        public SimpleFileReader(ISettings settings)
         {
-            Filename = filename;
+            Filename = settings.FileReaderSettings.Filename;
         }
 
         public string Read()

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using TagsCloudContainer.Architecture;
 using TagsCloudContainer.Utils;
 
 namespace TagsCloudContainer
@@ -10,12 +12,14 @@ namespace TagsCloudContainer
     {
         private IFileFormatReader  Reader { get; set; }
         private int CountWordsToParse { get; set; }
-        public SimpleWordsParser(IFileFormatReader reader, int countWordsToParse)
+        private IWordHandler WordHandler { get; set; }
+
+        public SimpleWordsParser(IFileFormatReader reader, IWordHandler wordHandler, ISettings settings)
         {
             Reader = reader;
-            CountWordsToParse = countWordsToParse;
+            CountWordsToParse = settings.WordsParserSettings.CountWordsToParse;
+            WordHandler = wordHandler;
         }
-
         private static readonly HashSet<string> BoringWords = new HashSet<string>()
         {
             "aboard", "about", "above", "across", "after", "against", "along", "amid", "among", "anti",
@@ -46,6 +50,7 @@ namespace TagsCloudContainer
                 .OrderByDescending(tuple => tuple.Item2)
                 .ThenBy(tuple => tuple.Item1)
                 .Take(count)
+                .Select(e => (WordHandler.Handle(e.Item1), e.Item2))
                 .ToList();
         }
 

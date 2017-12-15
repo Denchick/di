@@ -75,8 +75,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSettings.cs" />
     <Compile Include="Architecture\CloudLayouters\CircularCloudLayouter.cs" />
     <Compile Include="Architecture\CloudLayouters\ICloudLayouter.cs" />
+    <Compile Include="Architecture\Settings\FileReaderSettings.cs" />
+    <Compile Include="Architecture\Settings\IFileReadersProvider.cs" />
+    <Compile Include="Architecture\Settings\IImageSettingsProvider.cs" />
+    <Compile Include="Architecture\Settings\ImageSettings.cs" />
+    <Compile Include="Architecture\Settings\IParserSettingsProvider.cs" />
+    <Compile Include="Architecture\Settings\ISettings.cs" />
+    <Compile Include="Architecture\Settings\WordsParserSettings.cs" />
     <Compile Include="Architecture\Tags\TagType.cs" />
     <Compile Include="Architecture\Themes\ITheme.cs" />
     <Compile Include="Architecture\Themes\Stupid.cs" />
@@ -84,6 +92,9 @@
     <Compile Include="Architecture\TagsDrawers\BitmapDrawer.cs" />
     <Compile Include="Architecture\TagsDrawers\ITagsDrawer.cs" />
     <Compile Include="Architecture\Themes\NightMode.cs" />
+    <Compile Include="Architecture\WordHandlers\InitialFormOfWordHandler.cs" />
+    <Compile Include="Architecture\WordHandlers\NoHandler.cs" />
+    <Compile Include="Architecture\WordHandlers\IWordHandler.cs" />
     <Compile Include="Architecture\WordsParsers\IWordsParser.cs" />
     <Compile Include="Architecture\WordsParsers\SimpleWordsParser.cs" />
     <Compile Include="Architecture\Tags\Tag.cs" />

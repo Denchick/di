@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Autofac;
@@ -11,6 +12,7 @@ using Autofac.Core;
 using CommandLine;
 using TagsCloudContainer.Architecture;
 using TagsCloudContainer.Architecture.Themes;
+using TagsCloudContainer.Properties;
 using TagsCloudContainer.Utils;
 
 namespace TagsCloudContainer
@@ -25,23 +27,32 @@ namespace TagsCloudContainer
                 options.GetUsage();
                 return;
             }
+
+            var imageSettings = new ImageSettings(
+                options.ImageFilename, options.Height, options.Width, GetThemeByName(options.Theme));
+            var wordsParserSettings = new WordsParserSettings(options.Count);
+            var fileReaderSettings = new FileReaderSettings(options.InputFileName);
             
             var builder = new ContainerBuilder();
+            builder.RegisterInstance(imageSettings)
+                .As<ImageSettings>();
+            builder.RegisterInstance(wordsParserSettings)
+                .As<WordsParserSettings>();
+            builder.RegisterInstance(fileReaderSettings)
+                .As<FileReaderSettings>();
+            builder.RegisterType<AppSettings>()
+                .As<ISettings>();
+            
             builder.RegisterType<SimpleFileReader>()
-                .As<IFileFormatReader>()
-                .WithParameter("filename", options.InputFileName);
+                .As<IFileFormatReader>();
+            builder.RegisterType<NoHandler>()
+                .As<IWordHandler>();
             builder.RegisterType<SimpleWordsParser>()
-                .WithParameter("countWordsToParse", options.Count)
                 .As<IWordsParser>();
             builder.RegisterType<CircularCloudLayouter>()
-                .As<ICloudLayouter>()
-                .WithParameter("theme", GetThemeByName(options.Theme))
-                .WithParameter("height", options.Height)
-                .WithParameter("width", options.Width);
+                .As<ICloudLayouter>();
             builder.RegisterType<BitmapDrawer>()
-                .As<ITagsDrawer>()
-                .WithParameter("filename", options.ImageFilename);
-            
+                .As<ITagsDrawer>();            
 
             var container = builder.Build();
             var tagsDrawer = container.Resolve<ITagsDrawer>();

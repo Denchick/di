@@ -20,13 +20,13 @@ namespace TagsCloudContainer
         private string Filename { get; set;}
         private ITheme Theme { get; set; }
 
-        public BitmapDrawer(ICloudLayouter layouter, string filename)
+        public BitmapDrawer(ICloudLayouter layouter, ISettings settings)
         {
             Tags = layouter.GetLayoutedTags().ToList();
             Size = new Size(layouter.Width, layouter.Height);
             Offset = new Point(0, 0);
             Theme = layouter.Theme;
-            Filename = filename;
+            Filename = settings.ImageSettings.Filename;
         }
 
 

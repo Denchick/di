@@ -13,7 +13,8 @@ namespace TagsCloudContainer.Tests
 {
     public class CloudLayouterTests
     {
-/*        [TestCase(0, 0)]
+        /*
+        [TestCase(0, 0)]
         [TestCase(10, 10)]
         public void Cloudlayoter_SetUpCenterCorrectly(int centerX, int centerY)
         {
@@ -91,6 +92,7 @@ namespace TagsCloudContainer.Tests
                 sizes.Add(rectangleSize);
                 layouter.PutNextRectangle(rectangleSize);
             }
-        }*/
+        }
+        */
     }
 }

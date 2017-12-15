@@ -22,13 +22,13 @@ namespace TagsCloudContainer.Architecture
         public ITheme Theme { get; }
 
         
-        public CircularCloudLayouter(IWordsParser parser, ITheme theme, int width, int height)
+        public CircularCloudLayouter(IWordsParser parser, ISettings settings)
         {
-            CloudCenter = new Vector(width / 2, height / 2);
-            Width = width;
-            Height = height;
+            CloudCenter = new Vector(settings.ImageSettings.Width / 2, settings.ImageSettings.Height/ 2);
+            Width = settings.ImageSettings.Width;
+            Height = settings.ImageSettings.Height;
             WordsParser = parser;
-            Theme = theme;
+            Theme = settings.ImageSettings.Theme;
             Tags = MakeTagsFromTuples();
         }
 

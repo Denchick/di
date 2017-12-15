@@ -18,13 +18,13 @@ namespace TagsCloudContainer
             HelpText = "Имя файла, в который нужно сохранить изображение")]
         public string ImageFilename { get; set; }
         
-        [Option('h', "height", Required = false, DefaultValue = "600",
+        [Option('h', "height", Required = false, DefaultValue = 600,
             HelpText = "Высота изображения в пискелах")]
-        public string Height { get; set; }
+        public int Height { get; set; }
         
-        [Option('w', "width", Required = false, DefaultValue = "600",
+        [Option('w', "width", Required = false, DefaultValue = 600,
             HelpText = "Ширина изображения в пискелах")]
-        public string Width { get; set; }
+        public int Width { get; set; }
         
         [Option('e', "theme", Required = false, DefaultValue = "NightMode",
             HelpText = "Использовать определенную тему. Пока есть 2: NightMode и Stupid")]
