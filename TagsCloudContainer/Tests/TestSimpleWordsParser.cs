@@ -4,28 +4,25 @@ using System.Drawing;
 using System.Net.Mime;
 using FluentAssertions;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 using TagsCloudContainer.Architecture;
 using TagsCloudContainer.Utils;
+using Moq;
 
 namespace TagsCloudContainer.Tests
 {
-    class FileReader : IFileFormatReader
-    {
-        public string Text { get; set; }
-
-        public FileReader(string text)
-        {
-            Text = text;
-        }
-        
-        public string Read()
-        {
-            return Text;
-        }
-    }
-    
     public class TestSimpleWordsParser
     {
+        private string Text { get; set; }
+        
+        private static SimpleWordsParser CreateSimpleWordsParser(string text, int wordsCountToParse)
+        {
+            var reader = new Mock<IFileFormatReader>();
+            reader.Setup(r => r.Read()).Returns(text);
+            var wordsParserSettings = new WordsParserSettings(wordsCountToParse);
+            return new SimpleWordsParser(reader.Object, new NoHandler(), wordsParserSettings);
+        }
+        
         [Test]
         public void SimpleWordsParser_ParseCorrectly_WhenNothingToParse()
         {
@@ -75,13 +72,5 @@ namespace TagsCloudContainer.Tests
         {
             SimpleWordsParser.IsBoring(word).Should().Be(expected);
         }
-        
-        private static SimpleWordsParser CreateSimpleWordsParser(string text, int wordsCountToParse)
-        {
-            var fileReader = new FileReader(text);
-            var wordsParserSettings = new WordsParserSettings(wordsCountToParse);
-            return new SimpleWordsParser(fileReader, new NoHandler(), wordsParserSettings);
-        }
-
     }
 }

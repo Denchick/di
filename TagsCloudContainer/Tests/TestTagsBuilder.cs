@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using CommandLine;
 using FluentAssertions;
+using Moq;
 using NUnit.Framework;
 using TagsCloudContainer.Architecture;
 using TagsCloudContainer.Architecture.Tags;
@@ -11,41 +12,25 @@ using TagsCloudContainer.Architecture.TagsMakers;
 using TagsCloudContainer.Architecture.Themes;
 
 namespace TagsCloudContainer.Tests
-{
-    class ExampleLayouter:ICloudLayouter
-    {
-        public Rectangle PutNextRectangle(Size rectangleSize)
-        {
-            return new Rectangle(new Point(0, 0), rectangleSize);
-        }
-    }
-
-    class ExampleWordsParser : IWordsParser
-    {
-        private List<(string, int)> Parsed { get; }
-
-        public ExampleWordsParser(string text)
-        {
-            Parsed = text
-                .Split()
-                .Where(e => !string.IsNullOrEmpty(e))
-                .Select(e => (e, 1))
-                .ToList();
-        }
-        public List<(string, int)> Parse()
-        {
-            return Parsed;
-        }
-    }
-    
+{    
     public class TestTagsBuilder
     {
         private static TagsBuilder CreateTagsBuilder(string text)
         {
-            var layouter = new ExampleLayouter();
+            var layouter = new Mock<ICloudLayouter>();
+            layouter.Setup(l => l.PutNextRectangle(It.IsAny<Size>()))
+                .Returns((Size size) => new Rectangle(new Point(0, 0), size));
+            
             var settings = new ImageSettings("", 100, 100, new Stupid(), false);
-            var wordsParser = new ExampleWordsParser(text);
-            return new TagsBuilder(layouter, settings, wordsParser);
+            
+            var returnedText = text
+                .Split()
+                .Where(e => !string.IsNullOrEmpty(e))
+                .Select(e => (e, 1))
+                .ToList();
+            var wordsParser = new Mock<IWordsParser>();
+            wordsParser.Setup(l => l.Parse()).Returns(returnedText);
+            return new TagsBuilder(layouter.Object, settings, wordsParser.Object);
         }
         
         [Test]
