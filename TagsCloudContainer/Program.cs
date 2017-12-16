@@ -30,13 +30,13 @@ namespace TagsCloudContainer
             builder.Register(ctx => ctx.Resolve<ISettings>().ImageSettings);
             builder.Register(ctx => ctx.Resolve<ISettings>().FileReaderSettings);
             builder.Register(ctx => ctx.Resolve<ISettings>().WordsParserSettings);
-            builder.RegisterType<SimpleFileReader>()
+            builder.RegisterType<FileReader>()
                 .As<IFileFormatReader>();
             builder.RegisterType<NoHandler>()
                 .As<IWordHandler>();
             builder.RegisterType<SimpleWordsParser>()
                 .As<IWordsParser>();
-            builder.RegisterType<StandardTagsBuilder>()
+            builder.RegisterType<TagsBuilder>()
                 .As<ITagsBuilder>();
             builder.RegisterType<CircularCloudLayouter>()
                 .As<ICloudLayouter>();

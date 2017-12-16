@@ -6,13 +6,13 @@ using TagsCloudContainer.Architecture.Themes;
 
 namespace TagsCloudContainer.Architecture.TagsMakers
 {
-    public class StandardTagsBuilder : ITagsBuilder
+    public class TagsBuilder : ITagsBuilder
     {
         private ITheme Theme { get; }
         private ICloudLayouter CloudLayouter { get; }
         private List<Tag> Tags { get; set; }
 
-        public StandardTagsBuilder(ICloudLayouter cloudLayouter, ImageSettings settings, IWordsParser mostFrequentlyWords)
+        public TagsBuilder(ICloudLayouter cloudLayouter, ImageSettings settings, IWordsParser mostFrequentlyWords)
         {
             Theme = settings.Theme;
             CloudLayouter = cloudLayouter;
@@ -23,6 +23,7 @@ namespace TagsCloudContainer.Architecture.TagsMakers
         private static IEnumerable<Tag> MakeTagsFromTuples(List<(string, int)> wordAndFrequencyPairs)
         {
             var tags = new List<Tag>();
+            if (wordAndFrequencyPairs.Count == 0) return tags;
             var fifteenPercent = (int)(wordAndFrequencyPairs.Count * 0.15);
             var thirtyFivePercent = (int)(wordAndFrequencyPairs.Count * 0.35);
 

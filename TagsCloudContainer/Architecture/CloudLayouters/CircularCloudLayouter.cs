@@ -13,10 +13,10 @@ namespace TagsCloudContainer.Architecture
 {
     public class CircularCloudLayouter : ICloudLayouter
     {
-        private Vector CloudCenter { get; set; }
-        private List<Rectangle> Rectangles = new List<Rectangle>();
-        private int Width { get;}
-        private int Height { get; }
+        public Vector CloudCenter { get; }
+        public List<Rectangle> Rectangles = new List<Rectangle>();
+        public int Width { get;}
+        public int Height { get; }
 
         
         public CircularCloudLayouter(ImageSettings settings)

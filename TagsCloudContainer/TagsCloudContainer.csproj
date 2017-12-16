@@ -86,7 +86,7 @@
     <Compile Include="Architecture\Settings\ISettings.cs" />
     <Compile Include="Architecture\Settings\WordsParserSettings.cs" />
     <Compile Include="Architecture\TagsBuilder\ITagsBuilder.cs" />
-    <Compile Include="Architecture\TagsBuilder\StandardTagsBuilder.cs" />
+    <Compile Include="Architecture\TagsBuilder\TagsBuilder.cs" />
     <Compile Include="Architecture\Tags\TagType.cs" />
     <Compile Include="Architecture\Themes\ITheme.cs" />
     <Compile Include="Architecture\Themes\Stupid.cs" />
@@ -100,12 +100,14 @@
     <Compile Include="Architecture\WordsParsers\IWordsParser.cs" />
     <Compile Include="Architecture\WordsParsers\SimpleWordsParser.cs" />
     <Compile Include="Architecture\Tags\Tag.cs" />
-    <Compile Include="Architecture\FileReaders\SimpleFileReader.cs" />
+    <Compile Include="Architecture\FileReaders\FileReader.cs" />
     <Compile Include="Architecture\FileReaders\IFileFormatReader.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\TestCloudLayouter.cs" />
+    <Compile Include="Tests\TestSimpleWordsParser.cs" />
+    <Compile Include="Tests\TestTagsBuilder.cs" />
     <Compile Include="Tests\TestVector.cs" />
     <Compile Include="Utils\StringExtension.cs" />
     <Compile Include="Utils\Vector.cs" />

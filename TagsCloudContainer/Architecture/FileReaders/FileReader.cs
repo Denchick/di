@@ -4,11 +4,11 @@ using TagsCloudContainer.Architecture;
 
 namespace TagsCloudContainer
 {
-    public class SimpleFileReader : IFileFormatReader
+    public class FileReader : IFileFormatReader
     {
         private string Filename { get; set; }
         
-        public SimpleFileReader(FileReaderSettings settings)
+        public FileReader(FileReaderSettings settings)
         {
             Filename = settings.Filename;
         }

@@ -4,8 +4,8 @@ namespace TagsCloudContainer.Architecture
 {
 	public class ImageSettings
 	{
-		public int Width { get; }
-		public int Height { get; }
+		public int Width { get; set; }
+		public int Height { get; set; }
 		public string Filename { get; }
 		public bool Gui { get; }
 		public ITheme Theme { get; }

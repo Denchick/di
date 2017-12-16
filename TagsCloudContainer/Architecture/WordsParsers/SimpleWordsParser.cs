@@ -26,7 +26,7 @@ namespace TagsCloudContainer
             "around", "as", "at", "before", "behind", "below", "beneath", "beside", "besides", "between",
             "beyond", "but", "by", "concerning", "considering", "despite", "down", "during", "except`",
             "excepting", "excluding", "following", "for", "from", "in", "inside", "into", "like", "minus",
-            "near", "of", "off", "on", "onto", "opposite", "outside", "over", "past", "per", "plus",
+            "near", "of", "off", "on", "onto", "opposite", "outside", "over", "past", "per", "plus", "and",
             "regarding", "round", "save", "since", "than", "through", "to", "toward", "towards", "under",
             "underneath", "unlike", "until", "up", "upon", "versus", "via", "with", "within", "without",
 
@@ -44,17 +44,17 @@ namespace TagsCloudContainer
         private List<(string, int)> GetMostFrequentWords(string text, int count)
         {
             return Regex.Split(text.ToLower(), @"\W+")
+                .Select(e => WordHandler.Handle(e))
                 .Where(word => !string.IsNullOrWhiteSpace(word) && !IsBoring(word))
                 .GroupBy(word => word)
                 .Select(group => (group.Key.CapitalizeFirstLetter(), group.Count()))
                 .OrderByDescending(tuple => tuple.Item2)
                 .ThenBy(tuple => tuple.Item1)
                 .Take(count)
-                .Select(e => (WordHandler.Handle(e.Item1), e.Item2))
                 .ToList();
         }
 
-        private static bool IsBoring(string word)
+        public static bool IsBoring(string word)
         {
             return BoringWords.Contains(word.ToLower()) || word.Length <= 2;
         }
@@ -62,6 +62,7 @@ namespace TagsCloudContainer
         public List<(string, int)> Parse()
         {
             var text = Reader.Read();
+            if (string.IsNullOrEmpty(text)) return new List<(string, int)>();
             var frequentWords = GetMostFrequentWords(text, CountWordsToParse);
             return frequentWords;
         }

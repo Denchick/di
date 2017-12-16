@@ -7,27 +7,34 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using TagsCloudContainer.Architecture;
+using TagsCloudContainer.Architecture.Themes;
 using TagsCloudContainer.Utils;
 
 namespace TagsCloudContainer.Tests
 {
     public class CloudLayouterTests
     {
-        /*
-        class TestSetting : ISettings
+        private ImageSettings DefaultImageSettings { get; set; }
+        private ImageSettings PerfomanceImageSettings { get; set; }
+
+        
+        [SetUp]
+        public void SetUp()
         {
-            public ImageSettings ImageSettings { get; set; }
-            public WordsParserSettings WordsParserSettings { get; set; }
-            public FileReaderSettings FileReaderSettings { get; set; }
+            DefaultImageSettings = new ImageSettings("test.png", 100, 100, new Stupid(), false);
+            PerfomanceImageSettings = new ImageSettings("test.png", 1000, 1000, new Stupid(), false);
         }
         
-        [TestCase(0, 0)]
-        [TestCase(10, 10)]
-        public void Cloudlayoter_SetUpCenterCorrectly(int centerX, int centerY)
+        [TestCase(10, 20)]
+        [TestCase(20, 10)]
+        [TestCase(3, 5)]
+        public void Cloudlayoter_SetUpCenterCorrectly(int width, int height)
         {
-            var center = new Point(centerX, centerY);
+            var center = new Point(width / 2, height / 2);
+            DefaultImageSettings.Width = width;
+            DefaultImageSettings.Height = height;
 
-            var cloud = new CircularCloudLayouter();
+            var cloud = new CircularCloudLayouter(DefaultImageSettings);
 
             cloud.CloudCenter.Should().Be(new Vector(center));
         }
@@ -38,14 +45,13 @@ namespace TagsCloudContainer.Tests
             var cloudCenter = new Point(cloudCenterX, cloudCenterY);
             var rectangleSize = new Size(rectangleWidth, rectangleHeight);
 
-            var layouter = new CircularCloudLayouter(cloudCenter);
+            var layouter = new CircularCloudLayouter(DefaultImageSettings);
             layouter.PutNextRectangle(rectangleSize);
 
             CheckForCorrectLayout(new List<Size>() { rectangleSize }, layouter.Rectangles);
         }
 
         [TestCase(0, 0)]
-        [TestCase(0, 0, 10, 10)]
         [TestCase(0, 0, 10, 20)]
         [TestCase(10, 10, 10, 20)]
         [TestCase(0, 0, 10, 10)]
@@ -64,14 +70,14 @@ namespace TagsCloudContainer.Tests
             for (int i = 0; i < sizes.Length; i += 2)
                 rectanglesSizes.Add(new Size(sizes[i], sizes[i + 1]));
 
-            var layouter = new CircularCloudLayouter(cloudCenter);
+            var layouter = new CircularCloudLayouter(DefaultImageSettings);
             foreach (var size in rectanglesSizes)
                 layouter.PutNextRectangle(size);
 
             CheckForCorrectLayout(rectanglesSizes, layouter.Rectangles);
         }
 
-        public void CheckForCorrectLayout(List<Size> rectanglesSizes, List<Rectangle> layout)
+        private static void CheckForCorrectLayout(List<Size> rectanglesSizes, List<Rectangle> layout)
         {
             layout.Should().HaveCount(rectanglesSizes.Count);
 
@@ -92,7 +98,10 @@ namespace TagsCloudContainer.Tests
             var rnd = new Random();
             var sizes = new List<Size>();
 
-            var layouter = new CircularCloudLayouter(cloudCenter);
+            DefaultImageSettings.Width = 100000;
+            DefaultImageSettings.Height = 100000;
+            
+            var layouter = new CircularCloudLayouter(DefaultImageSettings);
             for (int i = 0; i < rectanglesCount * 2; i++)
             {
                 var rectangleSize = new Size(rnd.Next(maxRectangleMeasure), rnd.Next(maxRectangleMeasure));
@@ -100,6 +109,6 @@ namespace TagsCloudContainer.Tests
                 layouter.PutNextRectangle(rectangleSize);
             }
         }
-        */
+        
     }
 }
