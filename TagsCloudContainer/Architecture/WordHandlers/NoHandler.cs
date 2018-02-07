@@ -5,14 +5,14 @@ namespace TagsCloudContainer.Architecture
 {
     public class NoHandler : IWordHandler 
     {
-        public string Handle(string word)
+        public Result<string> Handle(string word)
         {
-            return word;
+            return Result.Ok(word);
         }
         
         public IEnumerable<string> Handle(IEnumerable<string> words)
         {
-            return words.Select(Handle);
+            return words.Select(w => Handle(w).Value);
         }
     }
 }

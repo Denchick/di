@@ -45,9 +45,9 @@ namespace TagsCloudContainer
         {
             return Regex.Split(text.ToLower(), @"\W+")
                 .Select(e => WordHandler.Handle(e))
-                .Where(word => !string.IsNullOrWhiteSpace(word) && !IsBoring(word))
+                .Where(word => !string.IsNullOrWhiteSpace(word.Value) && !IsBoring(word.Value))
                 .GroupBy(word => word)
-                .Select(group => (group.Key.CapitalizeFirstLetter(), group.Count()))
+                .Select(group => (group.Key.Value.CapitalizeFirstLetter(), group.Count()))
                 .OrderByDescending(tuple => tuple.Item2)
                 .ThenBy(tuple => tuple.Item1)
                 .Take(count)
@@ -62,8 +62,8 @@ namespace TagsCloudContainer
         public List<(string, int)> Parse()
         {
             var text = Reader.Read();
-            if (string.IsNullOrEmpty(text)) return new List<(string, int)>();
-            var frequentWords = GetMostFrequentWords(text, CountWordsToParse);
+            if (string.IsNullOrEmpty(text.Value)) return new List<(string, int)>();
+            var frequentWords = GetMostFrequentWords(text.Value, CountWordsToParse);
             return frequentWords;
         }
     }

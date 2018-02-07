@@ -26,15 +26,17 @@ namespace TagsCloudContainer.Architecture
             Height = settings.Height;
         }
 
-        public Rectangle PutNextRectangle(Size rectangleSize)
+        public Result<Rectangle> PutNextRectangle(Size rectangleSize)
         {
+            if (rectangleSize.Height <= 0 || rectangleSize.Width <= 0)
+                return Result.Fail<Rectangle>($"Incorrect size of rectangle: {rectangleSize}");
             var rectangleVector = Rectangles.Count == 0
                 ? CloudCenter - new Vector(rectangleSize.Width, rectangleSize.Height) / 2
                 : GetRectanglesVector(rectangleSize);
             var rectangle = new Rectangle(rectangleVector.X, rectangleVector.Y, rectangleSize.Width,
                 rectangleSize.Height);
             Rectangles.Add(rectangle);
-            return rectangle;
+            return Result.Ok(rectangle);
         }
 
         private Vector GetRectanglesVector(Size rectangleSize)

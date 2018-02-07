@@ -31,12 +31,13 @@ namespace TagsCloudContainer
             TagsBuilder = tagsBuilder;
         }
 
-        public void Draw()
+        public Result<None> Draw()
         {
             Bitmap = new Bitmap(Size.Width, Size.Height);
             FillBitmapsBackground(Theme.BackgroundColor);
             DrawTagsOnBitmap();
             SaveBitmap();
+            return Result.Ok();
         }
 
         private void FillBitmapsBackground(Brush brush)
@@ -50,14 +51,14 @@ namespace TagsCloudContainer
             var graphics = Graphics.FromImage(Bitmap);
             foreach (var tag in TagsBuilder.Build())
             {
-                var tagFont = Theme.GetTagAppearanceByType(tag.Type).Font;
-                var tagBrush = Theme.GetTagAppearanceByType(tag.Type).Brush;
-                var tagSize = TextRenderer.MeasureText(tag.Text, tagFont);
-                var sourceRectangle = tag.Rectangle;
-                tag.Rectangle =
+                var tagFont = Theme.GetTagAppearanceByType(tag.Value.Type).Font;
+                var tagBrush = Theme.GetTagAppearanceByType(tag.Value.Type).Brush;
+                var tagSize = TextRenderer.MeasureText(tag.Value.Text, tagFont);
+                var sourceRectangle = tag.Value.Rectangle;
+                tag.Value.Rectangle =
                     new Rectangle(new Point(sourceRectangle.Left - Offset.X, sourceRectangle.Top - Offset.Y),
                         sourceRectangle.Size);
-                graphics.DrawString(tag.Text, tagFont, tagBrush, tag.Rectangle.Location);
+                graphics.DrawString(tag.Value.Text, tagFont, tagBrush, tag.Value.Rectangle.Location);
             }
         }
 

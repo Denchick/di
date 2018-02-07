@@ -49,14 +49,14 @@ namespace TagsCloudContainer.Architecture.TagsMakers
             return tags;
         }
 
-        public IEnumerable<Tag> Build()
+        public IEnumerable<Result<Tag>> Build()
         {
             foreach (var tag in Tags)
             {
                 var tagFont = Theme.GetTagAppearanceByType(tag.Type).Font;
                 var tagSize = TextRenderer.MeasureText(tag.Text, tagFont);
-                tag.Rectangle = CloudLayouter.PutNextRectangle(tagSize);
-                yield return tag;
+                tag.Rectangle = CloudLayouter.PutNextRectangle(tagSize).Value;
+                yield return Result.Ok(tag);
             }
         }
     }

@@ -4,6 +4,6 @@ namespace TagsCloudContainer.Architecture.TagsMakers
 {
     public interface ITagsBuilder
     {
-        IEnumerable<Tag> Build();
+        IEnumerable<Result<Tag>> Build();
     }
 }

@@ -18,13 +18,13 @@ namespace TagsCloudContainer.Architecture
             FileReaderSettings = fileReaderSettings;
         }
 
-        public static AppSettings FromArgs(string[] args)
+        public static Result<AppSettings> FromArgs(string[] args)
         {
             var options = new Options();
             if (!Parser.Default.ParseArguments(args, options))
             {
                 options.GetUsage();
-                throw new Exception("Start program without any arguments");
+                return Result.Fail<AppSettings>("Start program without any arguments");
             }
 
             var imageSettings = new ImageSettings(
@@ -32,7 +32,7 @@ namespace TagsCloudContainer.Architecture
             var wordsParserSettings = new WordsParserSettings(options.Count);
             var fileReaderSettings = new FileReaderSettings(options.InputFileName);
             
-            return new AppSettings(imageSettings, wordsParserSettings, fileReaderSettings);
+            return Result.Ok(new AppSettings(imageSettings, wordsParserSettings, fileReaderSettings));
         }
         
         private static ITheme GetThemeByName(string themeName)

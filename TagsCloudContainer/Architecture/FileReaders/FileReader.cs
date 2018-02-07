@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms.VisualStyles;
 using TagsCloudContainer.Architecture;
 
@@ -13,10 +14,12 @@ namespace TagsCloudContainer
             Filename = settings.Filename;
         }
 
-        public string Read()
+        public Result<string> Read()
         {
+            if (!File.Exists(Filename))
+                return Result.Fail<string>($"File is not found: {Filename}");
             var textFromFile = File.ReadAllText(Filename);
-            return textFromFile;
+            return Result.Ok(textFromFile);
         }
     }
 }

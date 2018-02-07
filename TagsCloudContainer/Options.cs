@@ -1,12 +1,13 @@
 ﻿using System.Drawing;
 using CommandLine;
 using CommandLine.Text;
+using Moq;
 
 namespace TagsCloudContainer
 {
     class Options {        
                 
-        [Option('t', "text", Required = true,
+        [Option('t', "text", Required = false, DefaultValue = "text.txt",
             HelpText = "Текст, по которому строить облако тегов.")]
         public string InputFileName { get; set; }
         
@@ -29,8 +30,6 @@ namespace TagsCloudContainer
         [Option('e', "theme", Required = false, DefaultValue = "NightMode",
             HelpText = "Использовать определенную тему. Пока есть 2: NightMode и Stupid")]
         public string Theme { get; set; }
-        
-        
         
         [Option('c', "count", DefaultValue = 70, HelpText = "Количество слов из текста в облаке")]
         public int Count { get; set; }

@@ -59,7 +59,7 @@ namespace TagsCloudContainer.Tests
         {
             var builder = CreateTagsBuilder("word1 word1 word1 word1 word2 word2 word2 word3 word3 word4");
             var types = builder.Build()
-                .GroupBy(s => s.Type)
+                .GroupBy(s => s.Value.Type)
                 .Select(g => g.Key)
                 .ToList();
             

@@ -2,6 +2,6 @@
 {
     public interface IFileFormatReader
     {
-        string Read();
+        Result<string> Read();
     }
 }

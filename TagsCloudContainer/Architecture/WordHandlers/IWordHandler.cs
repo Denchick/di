@@ -2,6 +2,6 @@
 {
     public interface IWordHandler
     {
-        string Handle(string word);
+        Result<string> Handle(string word);
     }
 }

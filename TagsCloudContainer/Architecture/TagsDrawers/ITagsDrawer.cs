@@ -6,6 +6,6 @@ namespace TagsCloudContainer
 {
     public interface ITagsDrawer
     {
-        void Draw();
+        Result<None> Draw();
     }
 }
